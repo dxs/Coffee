@@ -7,7 +7,93 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Page.Resources>
+		<Style x:Key="Title" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="50" />
+			<Setter Property="Foreground" Value="WhiteSmoke" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="Margin" Value="30" />
+			<Setter Property="Padding" Value="5" />
+		</Style>
+		<Style x:Key="SubTitle" TargetType="TextBlock" BasedOn="{StaticResource Title}">
+			<Setter Property="FontSize" Value="30" />
+		</Style>
+		<Style x:Key="Item" TargetType="TextBlock" BasedOn="{StaticResource Title}">
+			<Setter Property="Margin" Value="10" />
+			<Setter Property="FontSize" Value="15" />
+		</Style>
+		<Style x:Key="Main" TargetType="Button">
+			<Setter Property="FontSize" Value="30" />
+			<Setter Property="Foreground" Value="WhiteSmoke" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="Margin" Value="10" />
+			<Setter Property="Padding" Value="5"/>
+			<Setter Property="Background" Value="#44FFFFFF" />
+		</Style>
+		<Style x:Key="MainBox" TargetType="ComboBox">
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="Margin" Value="10" />
+			<Setter Property="Padding" Value="5" />
+			<Setter Property="FontSize" Value="30" />
+			<Setter Property="Background" Value="#44FFFFFF" />
 
+		</Style>
+		<Style x:Key="ToggleMain" TargetType="ToggleButton">
+			<Setter Property="IsChecked" Value="False" />
+			<Setter Property="Background" Value="#44FFFFFF" />
+			<Setter Property="FontSize" Value="20" />
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="Padding" Value="5" />
+			<Setter Property="Foreground" Value="WhiteSmoke" />
+		</Style>
+	</Page.Resources>
+	
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+
+		<Image Name="backgroundImage" Grid.Row="0" Grid.RowSpan="2" Source="background.jpg" Stretch="UniformToFill" Loaded="backgroundImage_Loaded"/>
+		<StackPanel Grid.Row="0" Name="MainStack">
+			<TextBlock Name="Title" Style="{StaticResource Title}" Text="El Feca"/>
+
+			<ComboBox Name="combo" Style="{StaticResource MainBox}" ItemsSource="{x:Bind ListPeople}" SelectionChanged="combo_SelectionChanged">
+				<ComboBox.ItemTemplate>
+					<DataTemplate x:DataType="local:People">
+						<StackPanel Orientation="Horizontal" Width="Auto" Height="Auto">
+							<Button Style="{StaticResource Main}" Foreground="DarkGray" Background="Transparent" Content="&#xE74D;" FontSize="15" FontFamily="Segoe MDL2 Assets" Click="Button_Click" Tag="{x:Bind Name}"/>
+							<TextBlock Style="{StaticResource Item}" Foreground="black" Text="{x:Bind Name}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+
+			<Button Name="ButtonCoffee" Style="{StaticResource Main}" Content="Un café" Click="ButtonCoffee_Click"/>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+				<ToggleButton Name="sucreBox" Style="{StaticResource ToggleMain}" Content="Sucre" />
+				<ToggleButton Name="CremeBox" Style="{StaticResource ToggleMain}" Content="Crème" />
+
+			</StackPanel>
+
+			<TextBlock Style="{StaticResource SubTitle}" Text="Résumé"/>
+			<StackPanel HorizontalAlignment="Stretch" Margin="100,10,100,10">
+				<Grid Background="#44FFFFFF" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+					<TextBlock Style="{StaticResource Item}" Text="Nombres de café" HorizontalAlignment="Left"/>
+					<TextBlock Style="{StaticResource Item}" Text="{x:Bind Selected.NbCoffee}" HorizontalAlignment="Right" />
+				</Grid>
+				<Grid Background="#44FFFFFF" Margin="10" HorizontalAlignment="Stretch">
+					<TextBlock Style="{StaticResource Item}" Text="Retour" HorizontalAlignment="Left"/>
+					<TextBlock Style="{StaticResource Item}" Text="{x:Bind Selected.Money}" HorizontalAlignment="Right"/>
+				</Grid>
+			</StackPanel>
+		</StackPanel>
+		<CommandBar Grid.Row="1" Background="#44FFFFFF" IsOpen="False" ClosedDisplayMode="Minimal">
+			<AppBarButton Icon="Add" Label="Ajouter une personne" Click="AppBarButton_ClickAsync" />
+		</CommandBar>
     </Grid>
 </Page>
